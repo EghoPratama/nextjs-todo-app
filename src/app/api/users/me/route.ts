@@ -1,6 +1,6 @@
 // src/app/api/users/me/route.ts
 import { NextResponse } from 'next/server'
-import { verifyJwt } from '@/app/lib/jwt'
+import { verifyJwt } from '@/lib/jwt'
 
 export async function GET(req: Request) {
     const authHeader = req.headers.get('authorization')

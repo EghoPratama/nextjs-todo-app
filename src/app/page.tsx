@@ -1,9 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import TaskCard from '@/app/components/TaskCard'
-import Button from '@/app/components/Button'
-import AddTaskModal from '@/app/components/AddTaskModal'
+import TaskCard from '@/components/TaskCard'
+import Button from '@/components/Button'
+import AddTaskModal from '@/components/AddTaskModal'
 import { useRouter } from 'next/navigation'
 
 type Task = {

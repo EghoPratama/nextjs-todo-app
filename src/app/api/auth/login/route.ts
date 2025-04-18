@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { signJwt } from '@/app/lib/jwt'
+import { signJwt } from '@/lib/jwt'
 import { Pool } from 'pg'
 import bcrypt from 'bcryptjs'
 

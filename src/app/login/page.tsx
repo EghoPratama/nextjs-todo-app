@@ -2,45 +2,18 @@
 
 import React, { useState} from "react";
 import { useRouter } from "next/navigation";
-import Input from "@/app/components/Input";
-import Button from "@/app/components/Button";
+import Input from "@/components/Input";
+import Button from "@/components/Button";
+import useLogin from "@/hooks/useLogin";
 
 export default function LoginPage () {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
-    const router = useRouter();
+    const { login, loading, error } = useLogin();
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoading(true);
-        setError("");
-
-        try {
-            const res = await fetch("/api/auth/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password }),
-            });
-
-            if (!res.ok) {
-                const data = await res.json();
-                setError(data.message || "Login Failed");
-                return
-            }
-
-            const { token } = await res.json();
-
-            localStorage.setItem("token", token);
-
-            router.push("/");
-        } catch (error) {
-            console.log(error);
-            setError('Something went wrong');
-        } finally {
-            setLoading(false);
-        }
+        await login(email, password);
     };
 
     return (
