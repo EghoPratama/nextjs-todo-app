@@ -1,5 +1,6 @@
 import React from "react";
 import clsx from "clsx";
+import { useUserStore } from "@/store/useUserStore";
 
 type Task = {
     id: string
@@ -31,6 +32,11 @@ const statusOptions = [
 ]
 
 export default function TaskCard({ task, onEdit, onStatusChange }: Props) {
+    const { user } = useUserStore();
+
+    const canEdit = user?.role === "LEAD";
+    const canChangeStatus = user?.role === "LEAD" || user?.id === task?.assignee_id;
+
     return (
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-4 relative">
             <div className="flex justify-between items-center mb-2">
@@ -40,7 +46,7 @@ export default function TaskCard({ task, onEdit, onStatusChange }: Props) {
                     </h3>
                     <p className="text-sm text-gray-500 dark:text-gray-400">Assigned to: {task.assignee_name}</p>
                 </div>
-                {onEdit && (
+                {onEdit && canEdit && (
                     <button
                         onClick={onEdit}
                         className="text-sm text-blue-500 hover:underline mt-4 cursor-pointer"
@@ -52,7 +58,7 @@ export default function TaskCard({ task, onEdit, onStatusChange }: Props) {
 
             <p className="text-gray-700 dark:text-gray-300 text-sm mb-2">{task.description}</p>
 
-            {onStatusChange ? (
+            {canChangeStatus && onStatusChange ? (
                 <select
                     value={task.status}
                     onChange={(e) => onStatusChange(e.target.value as Task['status'])}
@@ -71,7 +77,7 @@ export default function TaskCard({ task, onEdit, onStatusChange }: Props) {
                         statusColors[task.status]
                     )}
                 >
-                  {task.status.replace('_', ' ')}
+                    {task.status.replace('_', ' ')}
                 </span>
             )}
         </div>

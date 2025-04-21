@@ -1,10 +1,13 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import TaskCard from '@/components/TaskCard'
-import Button from '@/components/Button'
-import AddTaskModal from '@/components/AddTaskModal'
-import { useRouter } from 'next/navigation'
+import { useState } from 'react';
+import TaskCard from '@/components/TaskCard';
+import Button from '@/components/Button';
+import AddTaskModal from '@/components/AddTaskModal';
+import TaskFormModal from "@/components/TaskFormModal";
+import useTaskList from "@/hooks/useTaskList";
+import useChangeStatusTask from "@/hooks/useChangeStatusTask";
+import useUserList from "@/hooks/useUserList";
 
 type Task = {
   id: string
@@ -17,50 +20,33 @@ type Task = {
 
 export default function DashboardPage() {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [tasks, setTasks] = useState<Task[]>([])
   const [selectedTask, setSelectedTask] = useState<Task | null>(null)
-  const [loading, setLoading] = useState(true)
-  const router = useRouter()
+  const { tasks, setTasks, loading } = useTaskList();
+  const { updateStatus } = useChangeStatusTask();
+  const { users } = useUserList();
+
+  const userOptions = users.map(user => ({
+    label: user.name,
+    value: user.id,
+  }))
 
   const handleAddTask = () => {
     // TODO: fetch ulang atau update list setelah nambah task
   }
-
-  useEffect(() => {
-    const fetchTasks = async () => {
-      const token = localStorage.getItem('token')
-      if (!token) {
-        router.push('/login')
-        return
-      }
-
-      try {
-        const res = await fetch('/api/tasks', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-
-        if (!res.ok) {
-          throw new Error('Failed to fetch tasks')
-        }
-
-        const data = await res.json()
-        setTasks(data.tasks)
-      } catch (error) {
-        console.error('❌ Error fetching tasks:', error)
-        router.push('/login')
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchTasks()
-  }, [router])
-
   const handleEdit = (task: Task) => {
     setSelectedTask(task)
     setIsModalOpen(true)
+  }
+
+  const handleStatusChange = async (taskId: string, newStatus: string) => {
+    const success = await updateStatus(taskId, newStatus);
+    if (success) {
+      setTasks((prev) =>
+          prev.map((task) =>
+              task.id === taskId ? { ...task, status: newStatus } : task
+          )
+      )
+    }
   }
 
   return (
@@ -83,17 +69,21 @@ export default function DashboardPage() {
                       key={task.id}
                       task={task}
                       onEdit={() => handleEdit(task)}
+                      onStatusChange={(status) => handleStatusChange(task.id, status)}
                   />
               ))}
             </div>
         )}
 
         {isModalOpen && (
-            <AddTaskModal
-                onAdd={handleAddTask}
+            <TaskFormModal
+                onSubmit={handleAddTask}
                 onClose={() => setIsModalOpen(false)}
+                userOptions={userOptions}
             />
         )}
+
+
       </div>
   )
 }
