@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📝 Next.js Simple Todo App
 
-## Getting Started
+[![Docker](https://img.shields.io/badge/docker-ready-blue?logo=docker)](https://www.docker.com/)
+[![PostgreSQL](https://img.shields.io/badge/database-PostgreSQL-blue?logo=postgresql)](https://www.postgresql.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-Framework-black?logo=next.js)](https://nextjs.org)
 
-First, run the development server:
+![Social Preview](./public/social-preview.png)
+
+A simple fullstack Todo application built using **Next.js (App Router)** with Docker and connected to a **PostgreSQL** database.
+
+---
+
+## 🚀 Features
+
+- 🧱 Built with Next.js App Router
+- 🐳 Dockerized frontend & backend
+- 🗃️ PostgreSQL integration
+- 🔐 JWT Authentication
+- 🧩 Role-based access control
+- ☑️ Todo CRUD operations
+- 🧪 State management Zustand
+
+---
+
+## 🛠️ Getting Started
+
+### 1. Clone the Repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/EghoPratama/nextjs-todo-app.git
+cd nextjs-todo-app
+```
+### 2. Run with Docker
+
+```bash
+docker-compose up --build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 👨‍💻 Author
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Created by [@EghoPratama](https://github.com/EghoPratama)  
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
